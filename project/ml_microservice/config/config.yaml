@@ -1,0 +1,31 @@
+data:
+  csv_path: data/raw.csv
+  target: Churn                     # Telco: "Churn" with values Yes/No
+  test_size: 0.2
+  random_state: 42
+
+features:
+  numeric: ["tenure", "MonthlyCharges", "TotalCharges"]
+  categorical: ["gender", "SeniorCitizen", "Partner", "Dependents",
+                "PhoneService", "InternetService", "Contract",
+                "PaperlessBilling", "PaymentMethod"]
+
+model:
+  type: "logreg"                   # or "random_forest"
+  params:
+    # GridSearch over these (applied if matching the chosen model type)
+    logreg:
+      C: [0.1, 1.0, 10.0]
+      penalty: ["l2"]
+      solver: ["lbfgs", "liblinear"]
+      max_iter: [500]
+    random_forest:
+      n_estimators: [200, 400]
+      max_depth: [null, 10, 20]
+      min_samples_split: [2, 5]
+
+cv:
+  strategy: "StratifiedKFold"
+  n_splits: 5
+  scoring: "roc_auc"
+  shuffle: true

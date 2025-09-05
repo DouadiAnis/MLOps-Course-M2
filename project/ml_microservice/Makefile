@@ -19,3 +19,6 @@ format:
 
 build:
 	docker build -t mlops-microservice:latest .
+
+train:
+	python3 src/train.py --config config/config.yaml
